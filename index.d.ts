@@ -43,6 +43,7 @@ type Mp = {
 	Vector3: Vector3Mp;
 	vehicles: VehicleMpPool;
 	voiceChat: VoiceChatMp;
+	world: WorldMp;
 }
 
 type GameMp = {
@@ -2993,6 +2994,8 @@ interface GameUiMp {
 	showLoadingPrompt(busySpinnerType: number): void;
 	showWeaponWheel(forcedShow: boolean): void;
 	toggleStealthRadar(toggle: boolean): void;
+
+	notifications: BetterNotifications;
 }
 
 interface GameUnkMp {
@@ -3298,6 +3301,7 @@ interface ObjectMpPool extends EntityMpPool<ObjectMp> {
 interface PedMpPool extends EntityMpPool<PedMp> {
 	"new"(model: RageEnums.Hashes.Ped | Hash, position: Vector3Mp, heading: number,
 		streamInEventHandler?: (ped: PedMp) => void, dimension?: number): PedMp;
+	"new"(model: RageEnums.Hashes.Ped | Hash, position: Vector3Mp, heading: number, dimension?: number): PedMp;
 }
 
 interface PickupMpPool extends EntityMpPool<PickupMp> {
@@ -3366,6 +3370,20 @@ type RaycastResult = {
 	entity: EntityMp,
 	position: Vector3Mp,
 	surfaceNormal: Vector3Mp
+}
+
+// -------------------------------------------------------------------------
+// External MP types
+// -------------------------------------------------------------------------
+
+interface WorldMp {
+	data: any;
+	setData(object: object): void;
+}
+
+type BetterNotifications = {
+	show(message: string, flashing?: boolean, textColor?: number, bgColor?: number, flashColor?: RGBA);
+	showWithPicture(title: string, sender: string, message: string, notifPic: string, icon?: number, flashing?: boolean, textColor?: number, bgColor?: number, flashColor?: RGBA);
 }
 
 // -------------------------------------------------------------------------
