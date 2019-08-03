@@ -355,6 +355,8 @@ interface ObjectMp extends EntityMp {
 
 interface PedMp extends EntityMp {
 	spawnPosition: Vector3Mp;
+	taskPlayAnim(animDictionary: string, animationName: string, speed: number, speedMultiplier: number, duration: number,
+		flag: number, playbackRate: number, lockX: boolean, lockY: boolean, lockZ: boolean): void;
 	// TODO
 }
 
@@ -3299,8 +3301,6 @@ interface ObjectMpPool extends EntityMpPool<ObjectMp> {
 }
 
 interface PedMpPool extends EntityMpPool<PedMp> {
-	"new"(model: RageEnums.Hashes.Ped | Hash, position: Vector3Mp, heading: number,
-		streamInEventHandler?: (ped: PedMp) => void, dimension?: number): PedMp;
 	"new"(model: RageEnums.Hashes.Ped | Hash, position: Vector3Mp, heading: number, dimension?: number): PedMp;
 }
 
