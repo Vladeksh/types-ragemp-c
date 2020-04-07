@@ -17,10 +17,10 @@ type Array3d = [ number, number, number ];
 type Array2d = [ number, number ];
 
 // -------------------------------------------------------------------------
-// Main MP types
+// Main MP interfaces
 // -------------------------------------------------------------------------
 
-type Mp = {
+interface Mp {
 	blips: BlipMpPool;
 	browsers: BrowserMpPool;
 	cameras: CameraMpPool;
@@ -46,7 +46,7 @@ type Mp = {
 	world: WorldMp;
 }
 
-type GameMp = {
+interface GameMp {
 	app: GameAppMp;
 	audio: GameAudioMp;
 	brain: GameBrainMp;
@@ -90,7 +90,7 @@ type GameMp = {
 	wait(ms: number): void;
 }
 
-type GuiMp = {
+interface GuiMp {
 	chat: GuiChatMp;
 	cursor: GuiCursorMp;
 
@@ -226,7 +226,12 @@ interface EntityMp {
 	getPhysicsHeading(): number;
 	getPitch(): number;
 	getPopulationType(): number;
-	getQuaternion(x: number, y: number, z: number, w: number): QuaternionMp;
+	getQuaternion(x: number, y: number, z: number, w: number): {
+		x: number;
+		y: number;
+		z: number;
+		w: number;
+	};
 	getRoll(): number;
 	getRotation(rotationOrder: number): Vector3Mp;
 	getRotationVelocity(): Vector3Mp;
@@ -357,6 +362,14 @@ interface PedMp extends EntityMp {
 	spawnPosition: Vector3Mp;
 	taskPlayAnim(animDictionary: string, animationName: string, speed: number, speedMultiplier: number, duration: number,
 		flag: number, playbackRate: number, lockX: boolean, lockY: boolean, lockZ: boolean): void;
+	setHeadOverlay(overlayID: number, index: number, opacity: number): void;
+	setHeadOverlayColor(overlayID: number, colorType: number, colorID: number, secondColorID: number): void;
+	setComponentVariation(componentId: number, drawableId: number, textureId: number, paletteId: number): void;
+	setHairColor(colorID: number, highlightColorID: number): void;
+	setEyeColor(index: number): void;
+	setHeadBlendData(shapeFirstID: number, shapeSecondID: number, shapeThirdID: number, skinFirstID: number, skinSecondID: number,
+		skinThirdID: number, shapeMix: number, skinMix: number, thirdMix: number, isParent: boolean): void;
+	setFaceFeature(index: number, scale: number): void;
 	// TODO
 }
 
@@ -1124,7 +1137,7 @@ interface VehicleMp extends EntityMp {
 	getHeliEngineHealth(): number;
 	getHeliMainRotorHealth(): number;
 	getHeliTailRotorHealth(): number;
-	getIsEngineRunning(): boolean;
+	getIsEngineRunning(): number;
 	getIsLeftHeadlightDamaged(): boolean;
 	getIsPrimaryColourCustom(): boolean;
 	getIsRightHeadlightDamaged(): boolean;
@@ -2162,7 +2175,7 @@ interface GameGraphicsMp {
 	requestScaleformMovie3(scaleformName: string): number;
 	requestScaleformMovieInstance(scaleformName: string): number;
 	requestStreamedTextureDict(textureDict: string, p1: boolean): void;
-	screen2dToWorld3d(screenPosition: Array2d, useRaycast?: boolean): Vector3Mp;
+	screen2dToWorld3d(vector2: Vector3Mp): Vector3Mp;
 	set2dLayer(layer: number): void;
 	setBlackout(enable: boolean): void;
 	setDebugLinesAndSpheresDrawingActive(enabled: boolean): void;
@@ -2328,9 +2341,9 @@ interface GameObjectMp {
 		zOffset: number): Vector3Mp;
 	getPickupCoords(p0: any): number;
 	getSafePickupCoords(x: number, y: number, z: number, p3: any, p4: any): Vector3Mp;
-	getStateOfClosestDoorOfType(type: Hash, x: number, y: number, z: number, locked: boolean, heading: number): {
-		locked: boolean;
-		heading: boolean;
+	getStateOfClosestDoorOfType(type: Hash, x: number, y: number, z: number, locked: number, heading: number): {
+		locked: number;
+		heading: number;
 	};
 	hasClosestObjectOfTypeBeenBroken(p0: number, p1: number, p2: number, p3: number, modelHash: Hash,
 		p5: any): boolean;
@@ -3199,7 +3212,7 @@ interface GameZoneMp {
 
 interface GuiChatMp {
 	colors: boolean;
-	safe: boolean;
+	safeMode: boolean;
 
 	activate(state: boolean): void;
 	push(text: string): void;
@@ -3338,7 +3351,7 @@ interface VehicleMpPool extends EntityMpPool<VehicleMp> {
 // Additional MP types
 // -------------------------------------------------------------------------
 
-type Vector3Mp = {
+interface Vector3Mp {
 	new(x: number, y: number, z: number): Vector3Mp;
 
 	x: number;
@@ -3357,16 +3370,7 @@ type Vector3Mp = {
 	unit(): Vector3Mp;
 }
 
-type QuaternionMp = {
-	new(x: number, y: number, z: number, w: number): Vector3Mp;
-
-	x: number;
-	y: number;
-	z: number;
-	w: number;
-}
-
-type RaycastResult = {
+interface RaycastResult {
 	entity: EntityMp,
 	position: Vector3Mp,
 	surfaceNormal: Vector3Mp
