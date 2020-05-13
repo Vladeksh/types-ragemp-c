@@ -27,7 +27,7 @@ interface Mp {
 	checkpoints: CheckpointMpPool;
 	colshapes: ColshapeMpPool;
 	discord: DiscordMp;
-	events: EventMpPool;
+	events: EventMpPool & BetterClientsideCommands;
 	game: GameMp;
 	gui: GuiMp;
 	keys: KeysMp;
@@ -1156,8 +1156,8 @@ interface VehicleMp extends EntityMp {
 	getMaxNumberOfPassengers(): number;
 	getMaxTraction(): number;
 	getMod(modType: number): number;
-	getModColor1(paintType: number | number, color: number, p2: number): {
-		paintType: number | number;
+	getModColor1(paintType: number, color: number, p2: number): {
+		paintType: number;
 		color: number;
 		p2: number;
 	};
@@ -1170,7 +1170,7 @@ interface VehicleMp extends EntityMp {
 	getModColor2TextLabel(): string;
 	getModKit(): number;
 	getModKitType(): number;
-	getModModifierValue(modType: number, modIndex: number): any; // TODO
+	getModModifierValue(modType: number, modIndex: number): number;
 	getModSlotName(modType: number): string;
 	getModTextLabel(modType: number, modValue: number): string;
 	getModVariation(modType: number): boolean;
@@ -1214,7 +1214,7 @@ interface VehicleMp extends EntityMp {
 	isCargobobHookActive(): boolean;
 	isCargobobMagnetActive(): boolean;
 	isDamaged(): boolean;
-	isDoorDamaged(doorId: number | number): boolean;
+	isDoorDamaged(doorId: number): boolean;
 	isDriveable(p0: boolean): boolean;
 	isExtraTurnedOn(extraId: number): boolean;
 	isHeliPartBroken(p0: boolean, p1: boolean, p2: boolean): boolean;
@@ -1770,7 +1770,7 @@ interface GameDecisioneventMp {
 	isShockingEventInSphere(type: number, x: number, y: number, z: number, radius: number): boolean;
 	removeAllShockingEvents(p0: boolean): void;
 	removeShockingEvent(event: GameScriptMp): boolean;
-	suppressShockingEvent(type: number | number): void;
+	suppressShockingEvent(type: number): void;
 	unblockDecisionMakerEvent(name: Hash, type: number): void;
 }
 
@@ -1826,7 +1826,7 @@ interface GameDlc1Mp {
 	getForcedComponent(componentHash: Hash, componentId: number, p2: any, p3: any, p4: any): void;
 	getNumDlcWeaponComponents(dlcWeaponIndex: number): number;
 	getNumForcedComponents(componentHash: Hash): number;
-	getNumPropsFromOutfit(p0: number | number, p1: number, p2: number, p3: boolean, p4: number, componentId: number): number;
+	getNumPropsFromOutfit(p0: number, p1: number, p2: number, p3: boolean, p4: number, componentId: number): number;
 	getPropFromOutfit(outfit: any, slot: number, item: any): boolean;
 	getShopPedComponent(p0: any, p1: any): void;
 	getShopPedOutfit(p0: any, p1: any): void;
@@ -3009,7 +3009,6 @@ interface GameUiMp {
 	showLoadingPrompt(busySpinnerType: number): void;
 	showWeaponWheel(forcedShow: boolean): void;
 	toggleStealthRadar(toggle: boolean): void;
-
 	notifications: BetterNotifications;
 }
 
@@ -3379,17 +3378,50 @@ interface RaycastResult {
 // -------------------------------------------------------------------------
 // External MP types
 // -------------------------------------------------------------------------
-
+/**
+ * Shared World Data 1.1.0 (https://rage.mp/files/file/178-shared-world-data/)
+ */
 interface WorldMp {
 	data: any;
-	setData(object: object): void;
 }
 
-type BetterNotifications = {
-	show(message: string, flashing?: boolean, textColor?: number, bgColor?: number, flashColor?: RGBA);
-	showWithPicture(title: string, sender: string, message: string, notifPic: string, icon?: number, flashing?: boolean, textColor?: number, bgColor?: number, flashColor?: RGBA);
+/**
+ * Better Notifications 2.0.1 (https://rage.mp/files/file/34-better-notifications/)
+ */
+interface BetterNotifications {
+	show(message: string, flashing?: boolean, textColor?: number, bgColor?: number, flashColor?: RGBA): void;
+	showWithPicture(title: string, sender: string, message: string, notifPic: string, icon?: number, flashing?: boolean, textColor?: number, bgColor?: number, flashColor?: RGBA): void;
 }
 
+/**
+ * Better Clientside Commands 2.0.0 (https://rage.mp/files/file/296-better-clientside-commands/)
+ */
+interface BetterClientsideCommands {
+	/**
+	 * Adds a clientside command.
+	 * @param {string} name      Name of the command.
+	 * @param {function} handlerFn Function that will run when the command is used.
+	 * @throws {TypeError} name argument must be a string.
+	 * @throws {TypeError} handlerFn argument must be a function.
+	 * @throws {Error} Command with the given name already exists.
+	 */
+	addCommand(name: string, handlerFn: (...args: any[]) => void): void;
+	/**
+	 * Returns clientside command names.
+	 * @return {string[]}
+	 */
+	getCommandNames(): string[];
+	/**
+	 * Removes a clientside command.
+	 * @param  {string} name Name of the command to remove.
+	 * @return {boolean}
+	 */
+	removeCommand(name: string): boolean;
+	/**
+	 * Removes all clientside commands.
+	 */
+	removeAllCommands(): void;
+}
 // -------------------------------------------------------------------------
 // Vars
 // -------------------------------------------------------------------------
