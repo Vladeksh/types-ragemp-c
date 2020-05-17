@@ -26,7 +26,7 @@ interface Mp {
 	cameras: CameraMpPool;
 	checkpoints: CheckpointMpPool;
 	colshapes: ColshapeMpPool;
-	console: ConsoleMp;
+	console: ConsoleMp & BetterClientsideCommandsConsole;
 	discord: DiscordMp;
 	dummies: DummyEntityMpPool;
 	events: EventMpPool & BetterClientsideCommands;
@@ -3460,6 +3460,35 @@ interface BetterClientsideCommands {
 	removeCommand(name: string): boolean;
 	/**
 	 * Removes all clientside commands.
+	 */
+	removeAllCommands(): void;
+}
+interface BetterClientsideCommandsConsole {
+	/**
+	 * (v2.0.0) Adds a console command.
+	 * @param {string} name      Name of the console command.
+	 * @param {function} handlerFn Function that will run when the console command is used.
+	 * @throws {TypeError} name argument must be a string.
+	 * @throws {TypeError} handlerFn argument must be a function.
+	 * @throws {Error} Console command with the given name already exists.
+	 */
+	addCommand(name: string, handlerFn: (...args: any[]) => void): void;
+
+	/**
+	 * (v2.0.0) Returns console command names.
+	 * @return {string[]}
+	 */
+	getCommandNames(): string[];
+
+	/**
+	 * (v2.0.0) Removes a console command.
+	 * @param  {string} name Name of the console command to remove.
+	 * @return {boolean}
+	 */
+	removeCommand(name: string): boolean;
+
+	/**
+	 * (v2.0.0) Removes all console commands.
 	 */
 	removeAllCommands(): void;
 }
