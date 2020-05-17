@@ -29,7 +29,7 @@ interface Mp {
 	console: ConsoleMp;
 	discord: DiscordMp;
 	dummies: DummyEntityMpPool;
-	events: EventMpPool;
+	events: EventMpPool & BetterClientsideCommands;
 	game: GameMp;
 	gui: GuiMp;
 	keys: KeysMp;
@@ -45,6 +45,7 @@ interface Mp {
 	Vector3: Vector3Mp;
 	vehicles: VehicleMpPool;
 	voiceChat: VoiceChatMp;
+	world: WorldMp;
 }
 
 interface GameMp {
@@ -3034,6 +3035,7 @@ interface GameUiMp {
 	showLoadingPrompt(busySpinnerType: number): void;
 	showWeaponWheel(forcedShow: boolean): void;
 	toggleStealthRadar(toggle: boolean): void;
+	notifications: BetterNotifications;
 }
 
 interface GameUnkMp {
@@ -3243,7 +3245,6 @@ interface GameGxtMp {
 
 interface GuiChatMp {
 	colors: boolean;
-	safe: boolean;
 
 	activate(state: boolean): void;
 	push(text: string): void;
@@ -3413,6 +3414,54 @@ interface RaycastResult {
 	entity: EntityMp,
 	position: Vector3Mp,
 	surfaceNormal: Vector3Mp
+}
+
+// -------------------------------------------------------------------------
+// External MP types
+// -------------------------------------------------------------------------
+/**
+ * Shared World Data 1.1.0 (https://rage.mp/files/file/178-shared-world-data/)
+ */
+interface WorldMp {
+	data: any;
+}
+
+/**
+ * Better Notifications 2.0.1 (https://rage.mp/files/file/34-better-notifications/)
+ */
+interface BetterNotifications {
+	show(message: string, flashing?: boolean, textColor?: number, bgColor?: number, flashColor?: RGBA): void;
+	showWithPicture(title: string, sender: string, message: string, notifPic: string, icon?: number, flashing?: boolean, textColor?: number, bgColor?: number, flashColor?: RGBA): void;
+}
+
+/**
+ * Better Clientside Commands 2.0.0 (https://rage.mp/files/file/296-better-clientside-commands/)
+ */
+interface BetterClientsideCommands {
+	/**
+	 * Adds a clientside command.
+	 * @param {string} name      Name of the command.
+	 * @param {function} handlerFn Function that will run when the command is used.
+	 * @throws {TypeError} name argument must be a string.
+	 * @throws {TypeError} handlerFn argument must be a function.
+	 * @throws {Error} Command with the given name already exists.
+	 */
+	addCommand(name: string, handlerFn: (...args: any[]) => void): void;
+	/**
+	 * Returns clientside command names.
+	 * @return {string[]}
+	 */
+	getCommandNames(): string[];
+	/**
+	 * Removes a clientside command.
+	 * @param  {string} name Name of the command to remove.
+	 * @return {boolean}
+	 */
+	removeCommand(name: string): boolean;
+	/**
+	 * Removes all clientside commands.
+	 */
+	removeAllCommands(): void;
 }
 
 // -------------------------------------------------------------------------
