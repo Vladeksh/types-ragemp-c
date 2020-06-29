@@ -421,4 +421,9 @@ declare namespace RageEnums {
 		INFO = "info",
 		WARNING = "warning"
 	}
+	
+	const enum BNEventKey {
+		BN_Show = "BN_Show",
+		BN_ShowWithPicture = "BN_ShowWithPicture"
+	}
 }

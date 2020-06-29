@@ -46,6 +46,8 @@ interface Mp {
 	vehicles: VehicleMpPool;
 	voiceChat: VoiceChatMp;
 	world: WorldMp;
+
+	Event: EventMp;
 }
 
 interface GameMp {
@@ -3399,7 +3401,7 @@ interface Vector3Mp {
 	z: number;
 
 	add(value: number): Vector3Mp;
-  add(vector3: Vector3Mp): Vector3Mp;
+  	add(vector3: Vector3Mp): Vector3Mp;
 	divide(value: number): Vector3Mp;
 	divide(vector3: Vector3Mp): Vector3Mp;
 	length(): number;
@@ -3414,6 +3416,11 @@ interface RaycastResult {
 	entity: EntityMp,
 	position: Vector3Mp,
 	surfaceNormal: Vector3Mp
+}
+
+interface EventMp {
+	new(name: string, handlerFn: () => void): EventMp;
+	destroy(): void;
 }
 
 // -------------------------------------------------------------------------
