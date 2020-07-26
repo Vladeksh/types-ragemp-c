@@ -47,7 +47,9 @@ interface Mp {
 	voiceChat: VoiceChatMp;
 	world: WorldMp;
 
-	Event: EventMp;
+	Event: {
+		new(eventName: RageEnums.EventKey | string, callback: (...args: any[]) => void): EventMp
+	};
 }
 
 interface GameMp {
@@ -3419,7 +3421,6 @@ interface RaycastResult {
 }
 
 interface EventMp {
-	new(name: string, handlerFn: () => void): EventMp;
 	destroy(): void;
 }
 
