@@ -94,7 +94,7 @@ interface GameMp {
 	invoke(hash: string, ...args: any[]): any;
 	invokeFloat(hash: string, ...args: any[]): any;
 	invokeString(hash: string, ...args: any[]): any;
-	invokeVector(hash: string, ...args: any[]): any;
+	invokeVector3(hash: string, ...args: any[]): any;
 	joaat(text: string): Hash;
 	joaat(textArray: string[]): Hash[];
 	wait(ms: number): void;
@@ -2147,7 +2147,7 @@ interface GameGraphicsMp {
 	drawText(text: string, position: Array3d | Array2d,
 		data?: {
 			font: number,
-			centre: boolean,
+			centre?: boolean,
 			color: RGBA,
 			scale: Array2d,
 			outline: boolean
