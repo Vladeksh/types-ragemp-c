@@ -177,10 +177,10 @@ interface EntityMp {
 	dimension: number;
 	model: number;
 	position: Vector3Mp;
-  readonly handle: any;
-  readonly id: number;
-  readonly remoteId: number;
-  readonly type: string;
+	readonly handle: any;
+	readonly id: number;
+	readonly remoteId: number;
+	readonly type: string;
 
 	applyForceTo(forceType: number, x: number, y: number, z: number, xRot: number, yRot: number, zRot: number,
 		boneIndex: number, isRel: number, p9: boolean, highForce: boolean, p11: boolean, p12: boolean): void;
@@ -380,6 +380,7 @@ interface ObjectMp extends EntityMp {
 }
 
 interface PedMp extends EntityMp {
+	controller: PlayerMp | undefined;
 	spawnPosition: Vector3Mp;
 	taskPlayAnim(animDictionary: string, animationName: string, speed: number, speedMultiplier: number, duration: number,
 		flag: number, playbackRate: number, lockX: boolean, lockY: boolean, lockZ: boolean): void;
